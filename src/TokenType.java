@@ -1,4 +1,4 @@
-package com.jlox;
+package src;
 
 enum TokenType {
     

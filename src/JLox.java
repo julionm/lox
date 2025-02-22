@@ -1,4 +1,4 @@
-package com.jlox;
+package src;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class JLox {
 
     }
 
-    private static void runFile(String path) {
+    private static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
 
@@ -35,7 +35,7 @@ public class JLox {
         }
     }
 
-    private static void runPrompt() {
+    private static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
@@ -50,7 +50,7 @@ public class JLox {
 
     private static void run(String source) {
         Scanner scanner = new Scanner(source);
-        List<Tokens> tokens = scanner.scanTokens();
+        List<Token> tokens = scanner.scanTokens();
 
         for (Token token : tokens) {
             System.out.println(token);

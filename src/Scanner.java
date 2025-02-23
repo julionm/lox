@@ -81,6 +81,16 @@ class Scanner {
             case '/':
                 if (match('/')) {
                     while (peek() != '\n' && !isAtEnd()) advance();
+                } else if (match('*')) {
+                    while (peek() != '*' && peekNext() != '/' && !isAtEnd()) advance();
+                    
+                    // skipping next *
+                    advance();
+
+                    // skipping next /
+                    advance();
+
+                    // add a condition to throw an error if the comment was left unclosed
                 }
                 break;
             case ' ':

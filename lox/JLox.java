@@ -15,7 +15,7 @@ public class JLox {
 
     public static void main (String[] args) throws IOException {
 
-        if (args.length > 0) {
+        if (args.length > 1) {
            System.out.println("Usage: jlox [script]");
            System.exit(64); 
         } else if (args.length == 1) {
@@ -40,7 +40,7 @@ public class JLox {
         BufferedReader reader = new BufferedReader(input);
 
         for (;;) {
-            System.out.println(">");
+            System.out.print("> ");
             String line = reader.readLine();
             if (line == null) break;
             run(line);
@@ -52,13 +52,24 @@ public class JLox {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
+
+        if (hadError) return;
+
+        System.out.println(new AstPrinter().print(expression));
     }
 
     static void error (int line, String message) {
         report(line, "", message);
+    }
+
+    static void error (Token token, String message) {
+        if (token.type == TokenType.EOF) {
+            report(token.line, "", message);    
+        } else {
+            report(token.line, " at '" + token.lexeme + "'", message);
+        }
     }
 
     private static void report (int line, String where, String message) {

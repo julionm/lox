@@ -72,6 +72,9 @@ class Scanner {
             case '!':
                 addToken(match('=') ? BANG_EQUAL : BANG);
                 break;
+            case '=':
+                addToken(match('=') ? EQUAL_EQUAL : EQUAL);
+                break;
             case '<':
                 addToken(match('=') ? LESS_EQUAL : LESS);
                 break;
@@ -100,7 +103,7 @@ class Scanner {
                 } else if (isAlpha(c)) { 
                     identifier();
                 } else {
-                    JLox.error(line, "Unexpected character.");
+                    JLox.error(line, "Unexpected character. " + c);
                 }
 
                 break;
